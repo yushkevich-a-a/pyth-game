@@ -1,9 +1,16 @@
-import os
-# 🟩 ⬛ 🌊 🌳 ❤️ 🏥 ❤️ 🔴 🔥  🌩️ 🌥️ 🚁 
 
-TYPE_CELL = '🟩🌳🌊🏥'
+from utils import randbool, randcell , randcell2
 
-clear = lambda: os.system('clear')
+# 0 - поле
+# 1 - деревья
+# 2 - вода
+# 3 - больница
+# 4 - улучшения
+# 5 - огонь
+
+
+TYPE_CELL = '🟩🌳🌊🏥🔴🔥'
+
 
 class Map(object):
   def __init__(self, w: int, h: int):
@@ -12,19 +19,55 @@ class Map(object):
       self.cells = [[ 0 for i in range(w)] for i in range(h)]
 
   # генерация лесов
-  # def generate_forest(self):
-  #    return 0
+  def generate_forest(self, r, mxr):
+     for i in range(self.h):
+      for j in range(self.w):
+        if randbool(r,mxr):
+          self.cells[i][j]=1
+  
   
   # генерация пожаров
-  # def generate_fire(self):
-  #    return 0
+  def add_fire(self):
+    c = randcell(self.w, self.h)
+    cx, cy = c[0], c[1]
+    if self.check_field(cx, cy) and self.cells[cx][cy] == 1:
+      self.cells[cx][cy] = 5
+
+  def update_fires(self):
+    for i in range(self.h):
+      for j in range(self.w):
+        if (self.cells[i][j] == 5):
+          self.cells[i][j] = 0
+    for i in range(5):
+      self.add_fire()
+
+  # генерация деревьев
+  def generate_tree(self):
+    c = randcell(self.w, self.h)
+    cx, cy = c[0], c[1]
+    if self.check_field(cx, cy) and self.cells[cx][cy] == 0:
+      self.cells[cx][cy] = 1
+
+  # генерация рек
+  def generate_river(self, l):
+      rc = randcell(self.w, self.h)
+      rx, ry = rc[0], rc[1]
+      self.cells[rx][ry] = 2
+      while l > 0:
+        print(rx, ry)
+        rc2 = randcell2(rx, ry)
+        rx2, ry2 = rc2[0], rc2[1]
+        if self.check_field(rx2, ry2) :
+           self.cells[rx2][ry2] = 2
+           rx, ry = rx2, ry2 
+           l -= 1
+
   def check_field(self, x, y):
-    if x < 0 or x >= self.w or  y < 0 or y >= self.h:
+    if x < 0 or y < 0 or x >= self.h or y >= self.w:
       return False
     return True
   
   def print_map(self):
-    clear()
     print('⬛' * (len(self.cells[0]) + 2))
     for line in self.cells:
       print('⬛', end='')
@@ -32,14 +75,3 @@ class Map(object):
         print(TYPE_CELL[i], end='')
       print('⬛', )
     print('⬛' * (len(self.cells[0]) + 2))
-
-    
-  
-
-map = Map(10, 10)
-
-map.cells[2][4] = 1
-map.cells[3][5] = 2
-map.cells[5][5] = 3
-
-map.print_map()
