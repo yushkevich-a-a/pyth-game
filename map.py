@@ -1,6 +1,6 @@
 
 from utils import randbool, randcell , randcell2
-
+from helicopter import Helicopter
 # 0 - поле
 # 1 - деревья
 # 2 - вода
@@ -30,7 +30,7 @@ class Map(object):
   def add_fire(self):
     c = randcell(self.w, self.h)
     cx, cy = c[0], c[1]
-    if self.check_field(cx, cy) and self.cells[cx][cy] == 1:
+    if self.cells[cx][cy] == 1:
       self.cells[cx][cy] = 5
 
   def update_fires(self):
@@ -45,7 +45,7 @@ class Map(object):
   def generate_tree(self):
     c = randcell(self.w, self.h)
     cx, cy = c[0], c[1]
-    if self.check_field(cx, cy) and self.cells[cx][cy] == 0:
+    if self.cells[cx][cy] == 0:
       self.cells[cx][cy] = 1
 
   # генерация рек
@@ -67,11 +67,15 @@ class Map(object):
       return False
     return True
   
-  def print_map(self):
+  def print_map(self, helicop: Helicopter):
     print('⬛' * (len(self.cells[0]) + 2))
-    for line in self.cells:
+    for ri in range(self.h):
       print('⬛', end='')
-      for i in line:
-        print(TYPE_CELL[i], end='')
+      for ci in range(self.w):
+        cell = self.cells[ri][ci]
+        if (ri == helicop.x and ci == helicop.y):
+          print('🚁', end='')
+        elif (cell >= 0 and cell < len(TYPE_CELL)):
+          print(TYPE_CELL[cell], end='')
       print('⬛', )
     print('⬛' * (len(self.cells[0]) + 2))
