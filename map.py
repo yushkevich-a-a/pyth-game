@@ -7,6 +7,8 @@ clear = lambda: os.system('clear')
 
 class Map(object):
   def __init__(self, w: int, h: int):
+      self.w = w
+      self.h = h
       self.cells = [[ 0 for i in range(w)] for i in range(h)]
 
   # генерация лесов
@@ -16,6 +18,10 @@ class Map(object):
   # генерация пожаров
   # def generate_fire(self):
   #    return 0
+  def check_field(self, x, y):
+    if x < 0 or x >= self.w or  y < 0 or y >= self.h:
+      return False
+    return True
   
   def print_map(self):
     clear()
