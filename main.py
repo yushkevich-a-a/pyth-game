@@ -1,4 +1,4 @@
-# 🟩 ⬛ 🌊 🌳 ❤️ 🏥 ❤️ 🔴 🔥  🌩️ 🌥️ 🚁 
+# 🟩 ⬛ 🌊 🌳 ❤️ 🏥 ❤️ 🏡 🔥  🌩️ 🌥️ 🚁 🧺 🏆
 
 from map import Map
 from helicopter import Helicopter
@@ -9,15 +9,13 @@ from pynput import keyboard
 
 TICK_SLEEP = 0.05
 TREE_UPDATE = 50
-FIRE_UPDATE = 100
+FIRE_UPDATE = 10
 MAP_W, MAP_H = 20, 10
 MOVES={'w':(-1, 0),'d':(0, 1),'s':(1, 0),'a':(0, -1)}
 
 map = Map(MAP_W, MAP_H)
 helicop = Helicopter(MAP_W, MAP_H)
 
-map.generate_forest(3, 9)
-map.generate_river(10)
 tick = 1
 
 def proccess_key(key):
@@ -37,6 +35,8 @@ listener.start()
 while True:
     os.system('cls' if os.name=='nt' else 'clear')
     print("TICK:", tick)
+    map.process_helicopter(helicop)
+    helicop.print_status()
     map.print_map(helicop)
     time.sleep(TICK_SLEEP)
     tick += 1

@@ -10,13 +10,17 @@ from helicopter import Helicopter
 
 
 TYPE_CELL = '🟩🌳🌊🏥🔴🔥'
-
+UPGRADE_COST = 500
 
 class Map(object):
   def __init__(self, w: int, h: int):
       self.w = w
       self.h = h
       self.cells = [[ 0 for i in range(w)] for i in range(h)]
+      self.generate_forest(3, 9)
+      self.generate_river(10)
+      self.generate_river(10)
+      self.generate_shop()
 
   # генерация лесов
   def generate_forest(self, r, mxr):
@@ -25,22 +29,6 @@ class Map(object):
         if randbool(r,mxr):
           self.cells[i][j]=1
   
-  
-  # генерация пожаров
-  def add_fire(self):
-    c = randcell(self.w, self.h)
-    cx, cy = c[0], c[1]
-    if self.cells[cx][cy] == 1:
-      self.cells[cx][cy] = 5
-
-  def update_fires(self):
-    for i in range(self.h):
-      for j in range(self.w):
-        if (self.cells[i][j] == 5):
-          self.cells[i][j] = 0
-    for i in range(5):
-      self.add_fire()
-
   # генерация деревьев
   def generate_tree(self):
     c = randcell(self.w, self.h)
@@ -62,6 +50,27 @@ class Map(object):
            rx, ry = rx2, ry2 
            l -= 1
 
+  def generate_shop(self):
+    c = randcell(self.w, self.h)
+    cx, cy = c[0], c[1]
+    self.cells[cx][cy] = 4
+  
+  # генерация пожаров
+  def add_fire(self):
+    c = randcell(self.w, self.h)
+    cx, cy = c[0], c[1]
+    if self.cells[cx][cy] == 1:
+      self.cells[cx][cy] = 5
+
+  def update_fires(self):
+    for i in range(self.h):
+      for j in range(self.w):
+        if (self.cells[i][j] == 5):
+          self.cells[i][j] = 0
+    for i in range(5):
+      self.add_fire()
+
+
   def check_field(self, x, y):
     if x < 0 or y < 0 or x >= self.h or y >= self.w:
       return False
@@ -79,3 +88,16 @@ class Map(object):
           print(TYPE_CELL[cell], end='')
       print('⬛', )
     print('⬛' * (len(self.cells[0]) + 2))
+
+  def process_helicopter(self, helicop: Helicopter):
+    cell = self.cells[helicop.x][helicop.y]
+    if (cell == 2):
+      helicop.tank = helicop.mxtank
+    elif (cell == 5 and helicop.tank > 0):
+      helicop.tank -=1
+      self.cells[helicop.x][helicop.y] = 1
+      helicop.score += 100
+    elif (cell == 4 and helicop.score >= UPGRADE_COST):
+      helicop.mxtank +=1
+      # self.cells[helicop.x][helicop.y] = 0
+      helicop.score -= UPGRADE_COST

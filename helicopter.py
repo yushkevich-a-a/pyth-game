@@ -8,6 +8,9 @@ class Helicopter(object):
         self.y = ry
         self.w = w
         self.h = h
+        self.tank = 0
+        self.mxtank = 1
+        self.score = 0
         
     
     def moves(self, dx, dy):
@@ -15,3 +18,7 @@ class Helicopter(object):
         if (nx >= 0 and nx < self.h and ny >= 0 and ny < self.w):
             self.x = nx
             self.y = ny
+
+    def print_status(self):
+        print('🧺 ', self.tank, '/',self.mxtank, sep='', end=" | ")
+        print('🏆 ', self.score,)
