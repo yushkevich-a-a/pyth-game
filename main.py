@@ -24,26 +24,29 @@ tick = 1
 
 def proccess_key(key):
     global helicop, tick, cloud, map
-    c = key.char.lower()
-    if c in MOVES.keys():
-        dx, dy = MOVES[c][0], MOVES[c][1]
-        helicop.moves(dx,dy)
-    elif c == 'f':
-        data = {
-            "helicopter": helicop.export_data(),
-            "map": map.export_data(),
-            "clouds": cloud.export_data(),
-            'tick': tick
-        }
-        with open('level.json', 'w') as lvl:
-            json.dump(data, lvl)
-    elif c == 'g':
-        with open('level.json', 'r') as lvl:
-            data = json.load(lvl)
-            helicop.import_data(data["helicopter"])
-            map.import_data(data["map"])
-            cloud.import_data(data["clouds"])
-            tick = data["tick"] or 1
+    try: 
+        c = key.char.lower()
+        if c in MOVES.keys():
+            dx, dy = MOVES[c][0], MOVES[c][1]
+            helicop.moves(dx,dy)
+        elif c == 'f':
+            data = {
+                "helicopter": helicop.export_data(),
+                "map": map.export_data(),
+                "clouds": cloud.export_data(),
+                'tick': tick
+            }
+            with open('level.json', 'w') as lvl:
+                json.dump(data, lvl)
+        elif c == 'g':
+            with open('level.json', 'r') as lvl:
+                data = json.load(lvl)
+                helicop.import_data(data["helicopter"])
+                map.import_data(data["map"])
+                cloud.import_data(data["clouds"])
+                tick = data["tick"] or 1
+    except AttributeError:
+        return
 
 listener = keyboard.Listener(
     on_press=None,
