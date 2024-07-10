@@ -9,7 +9,7 @@ from helicopter import Helicopter
 # 5 - огонь
 
 
-TYPE_CELL = '🟩🌳🌊🏥🔴🔥'
+TYPE_CELL = '🟩🌳🌊🏥🏡🔥'
 UPGRADE_COST = 500
 
 class Map(object):
@@ -54,6 +54,14 @@ class Map(object):
     c = randcell(self.w, self.h)
     cx, cy = c[0], c[1]
     self.cells[cx][cy] = 4
+
+  def generate_hospital(self):
+    c = randcell(self.w, self.h)
+    if (self.cells[cx][cy] != 4):
+      cx, cy = c[0], c[1]
+      self.cells[cx][cy] = 3
+    else:
+      self.generate_hospital()
   
   # генерация пожаров
   def add_fire(self):

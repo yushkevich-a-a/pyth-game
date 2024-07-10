@@ -9,7 +9,7 @@ from pynput import keyboard
 
 TICK_SLEEP = 0.05
 TREE_UPDATE = 50
-FIRE_UPDATE = 10
+FIRE_UPDATE = 100
 MAP_W, MAP_H = 20, 10
 MOVES={'w':(-1, 0),'d':(0, 1),'s':(1, 0),'a':(0, -1)}
 
