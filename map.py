@@ -1,6 +1,8 @@
 
 from utils import randbool, randcell , randcell2
 from helicopter import Helicopter
+from clouds import Clouds
+
 # 0 - поле
 # 1 - деревья
 # 2 - вода
@@ -9,7 +11,7 @@ from helicopter import Helicopter
 # 5 - огонь
 
 
-TYPE_CELL = '🟩🌳🌊🏥🏡🔥'
+TYPE_CELL = '🟩🌲🌊🏥🏡🔥'
 UPGRADE_COST = 500
 HEALING_COST = 10
 
@@ -86,22 +88,34 @@ class Map(object):
       return False
     return True
   
-  def print_map(self, helicop: Helicopter):
+  def print_map(self, helicop: Helicopter, cloud: Clouds ):
     print('⬛' * (len(self.cells[0]) + 2))
     for ri in range(self.h):
       print('⬛', end='')
       for ci in range(self.w):
         cell = self.cells[ri][ci]
-        if (ri == helicop.x and ci == helicop.y):
+        clo = cloud.cells[ri][ci]
+        if (clo == 1):
+          print('🌥️ ', end='')
+        elif (clo == 2):
+          print('🪶 ', end='')
+        elif (ri == helicop.x and ci == helicop.y):
           print('🚁', end='')
         elif (cell >= 0 and cell < len(TYPE_CELL)):
           print(TYPE_CELL[cell], end='')
       print('⬛', )
     print('⬛' * (len(self.cells[0]) + 2))
 
-  def process_helicopter(self, helicop: Helicopter):
+  def process_helicopter(self, helicop: Helicopter, cloud: Clouds ):
     cell = self.cells[helicop.x][helicop.y]
-    if (cell == 2):
+    cell_light = cloud.cells[helicop.x][helicop.y]
+    if (cell_light == 2):
+      if( helicop.health <= 0):
+        print('гаме овер')
+        exit(0)
+      helicop.health -= 1
+
+    elif (cell == 2):
       helicop.tank = helicop.mxtank
     elif (cell == 5 and helicop.tank > 0):
       helicop.tank -=1
