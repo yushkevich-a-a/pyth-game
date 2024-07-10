@@ -129,3 +129,9 @@ class Map(object):
       helicop.health += 100
       # self.cells[helicop.x][helicop.y] = 0
       helicop.score -= HEALING_COST
+      
+  def export_data(self):
+    return {"cells": self.cells }
+
+  def import_data(self, data):
+    self.cells = data["cells"]

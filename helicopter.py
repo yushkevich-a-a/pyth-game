@@ -33,3 +33,22 @@ class Helicopter(object):
         print(st)
         print('X', ' ' * (len(st) - 2), 'X', sep='')
         print('X' * len(st))
+
+    def export_data(self):
+        data = {
+        "x": self.x,
+        "y": self.y,
+        "tank": self.tank,
+        "mxtank": self.mxtank,
+        "score": self.score,
+        "health": self.health,
+        }
+        return data
+    
+    def import_data(self, data):
+         self.x = data["x"]
+         self.y = data["y"]
+         self.tank = data["tank"]
+         self.mxtank = data["mxtank"]
+         self.score = data["score"]
+         self.health = data["health"]

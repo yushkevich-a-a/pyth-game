@@ -10,7 +10,7 @@ class Clouds(object):
     self.h = h
     self.cells = [[ 0 for i in range(w)] for i in range(h)]
 
-  def generate_cloud(self, c = 1, mxc = 10, g = 1, mxg = 10):
+  def generate_cloud(self, c = 10, mxc = 100, g = 10, mxg = 100):
     for ri in range(self.h):
       for ci in range(self.w):
         if randbool(c, mxc):
@@ -19,3 +19,8 @@ class Clouds(object):
             self.cells[ri][ci] = 2
         else: 
           self.cells[ri][ci] = 0
+  def export_data(self):
+    return {"cells": self.cells }
+
+  def import_data(self, data):
+    self.cells = data["cells"]
