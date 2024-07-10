@@ -13,7 +13,7 @@ from clouds import Clouds
 
 TYPE_CELL = '🟩🌲🌊🏥🏡🔥'
 UPGRADE_COST = 500
-HEALING_COST = 10
+HEALING_COST = 1000
 
 class Map(object):
   def __init__(self, w: int, h: int):
@@ -98,7 +98,7 @@ class Map(object):
         if (clo == 1):
           print('🌥️ ', end='')
         elif (clo == 2):
-          print('🪶 ', end='')
+          print('⚠️ ', end='')
         elif (ri == helicop.x and ci == helicop.y):
           print('🚁', end='')
         elif (cell >= 0 and cell < len(TYPE_CELL)):
@@ -111,21 +111,21 @@ class Map(object):
     cell_light = cloud.cells[helicop.x][helicop.y]
     if (cell_light == 2):
       if( helicop.health <= 0):
-        print('гаме овер')
+        helicop.game_over()
         exit(0)
       helicop.health -= 1
 
-    elif (cell == 2):
+    if (cell == 2):
       helicop.tank = helicop.mxtank
-    elif (cell == 5 and helicop.tank > 0):
+    if (cell == 5 and helicop.tank > 0):
       helicop.tank -=1
       self.cells[helicop.x][helicop.y] = 1
       helicop.score += 100
-    elif (cell == 4 and helicop.score >= UPGRADE_COST):
+    if (cell == 4 and helicop.score >= UPGRADE_COST):
       helicop.mxtank +=1
       # self.cells[helicop.x][helicop.y] = 0
       helicop.score -= UPGRADE_COST
-    elif (cell == 3 and helicop.score >= HEALING_COST):
+    if (cell == 3 and helicop.score >= HEALING_COST):
       helicop.health += 100
       # self.cells[helicop.x][helicop.y] = 0
       helicop.score -= HEALING_COST

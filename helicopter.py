@@ -24,3 +24,12 @@ class Helicopter(object):
         print('🧺 ', self.tank, '/',self.mxtank, sep='', end=" | ")
         print('🏆 ', self.score, end=" | ")
         print('💚 ', self.health)
+
+    def game_over(self):
+
+        st = f'X   CAME OVER! YOUR SCORE IS {self.score}   X'
+        print('X' * len(st))
+        print('X', ' ' * (len(st) - 2),'X', sep='')
+        print(st)
+        print('X', ' ' * (len(st) - 2), 'X', sep='')
+        print('X' * len(st))
