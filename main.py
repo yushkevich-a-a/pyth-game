@@ -34,10 +34,11 @@ listener.start()
 
 while True:
     os.system('cls' if os.name=='nt' else 'clear')
-    print("TICK:", tick)
     map.process_helicopter(helicop)
     helicop.print_status()
     map.print_map(helicop)
+    print("TICK:", tick)
+    
     time.sleep(TICK_SLEEP)
     tick += 1
     if (tick % TREE_UPDATE == 0 ):

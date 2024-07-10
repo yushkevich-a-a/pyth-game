@@ -23,4 +23,4 @@ class Helicopter(object):
     def print_status(self):
         print('🧺 ', self.tank, '/',self.mxtank, sep='', end=" | ")
         print('🏆 ', self.score, end=" | ")
-        print('❤️ ', self.health)
+        print('💚 ', self.health)

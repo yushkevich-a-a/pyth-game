@@ -11,6 +11,7 @@ from helicopter import Helicopter
 
 TYPE_CELL = '🟩🌳🌊🏥🏡🔥'
 UPGRADE_COST = 500
+HEALING_COST = 10
 
 class Map(object):
   def __init__(self, w: int, h: int):
@@ -21,6 +22,7 @@ class Map(object):
       self.generate_river(10)
       self.generate_river(10)
       self.generate_shop()
+      self.generate_hospital()
 
   # генерация лесов
   def generate_forest(self, r, mxr):
@@ -57,8 +59,8 @@ class Map(object):
 
   def generate_hospital(self):
     c = randcell(self.w, self.h)
+    cx, cy = c[0], c[1]
     if (self.cells[cx][cy] != 4):
-      cx, cy = c[0], c[1]
       self.cells[cx][cy] = 3
     else:
       self.generate_hospital()
@@ -109,3 +111,7 @@ class Map(object):
       helicop.mxtank +=1
       # self.cells[helicop.x][helicop.y] = 0
       helicop.score -= UPGRADE_COST
+    elif (cell == 3 and helicop.score >= HEALING_COST):
+      helicop.health += 100
+      # self.cells[helicop.x][helicop.y] = 0
+      helicop.score -= HEALING_COST
