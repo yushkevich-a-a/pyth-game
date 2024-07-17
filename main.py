@@ -67,6 +67,6 @@ while True:
     if (tick % TREE_UPDATE == 0 ):
         map.generate_tree()
     if (tick % FIRE_UPDATE == 0 ):
-        map.update_fires()
+        map.update_fires(helicop)
     if (tick % UPDATE_CLOUD == 0 ):
         cloud.generate_cloud()

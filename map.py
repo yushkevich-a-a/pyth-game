@@ -74,10 +74,12 @@ class Map(object):
     if self.cells[cx][cy] == 1:
       self.cells[cx][cy] = 5
 
-  def update_fires(self):
+  def update_fires(self, helicopter: Helicopter):
     for i in range(self.h):
       for j in range(self.w):
         if (self.cells[i][j] == 5):
+          if (helicopter.score >= 5 ): 
+            helicopter.score -= 5
           self.cells[i][j] = 0
     for i in range(5):
       self.add_fire()
